@@ -1,0 +1,30 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ChatKit API",
+        "version": "1.0.0",
+        "description": "Endpoints for ChatKit session and refresh"
+    },
+    "paths": {
+        "/api/chatkit/session": {
+            "post": {
+                "summary": "Create a ChatKit session",
+                "responses": {
+                    "200": {
+                        "description": "Returns a client secret and expiry"
+                    }
+                }
+            }
+        },
+        "/api/chatkit/refresh": {
+            "post": {
+                "summary": "Refresh ChatKit session",
+                "responses": {
+                    "200": {
+                        "description": "Returns a new client secret"
+                    }
+                }
+            }
+        }
+    }
+}
