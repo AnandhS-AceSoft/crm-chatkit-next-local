@@ -29,6 +29,33 @@ export const POST = withCors(async function POST(req: Request) {
         const resolvedUser = user ?? { id: `user_${Date.now().toString(36)}` };
 
         // Create ChatKit session
+        const payload = {
+            workflow: {
+                id: WORKFLOW_ID,
+                state_variables,
+            },
+
+            user: typeof resolvedUser === "string"
+                ? resolvedUser
+                : resolvedUser.id ?? "local-user",
+
+            metadata,
+
+            // ⭐ REQUIRED: Enable file uploads during session creation
+            chatkit_configuration: {
+                file_upload: {
+                    enabled: true,       // ⭐ REQUIRED for file attachments
+                    max_size_mb: 25,     // ⭐ optional: allow uploads up to 25MB
+                    allowed_mime_types: [
+                        "image/*",
+                        "application/pdf",
+                        "text/plain",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    ], // ⭐ optional
+                },
+            },
+        };
+
         const resp = await fetch("https://api.openai.com/v1/chatkit/sessions", {
             method: "POST",
             headers: {
@@ -36,23 +63,7 @@ export const POST = withCors(async function POST(req: Request) {
                 "Content-Type": "application/json",
                 "OpenAI-Beta": "chatkit_beta=v1",
             },
-            body: JSON.stringify({
-                workflow: {
-                    id: WORKFLOW_ID,
-                    // state_variables: {
-                    //     // organization_id: userData?.organizationId || 'org_123',
-                    //     // user_id: userData?.userId || 'guest',
-                    //     city: 'Chennai',
-                    //     country: 'India',
-                    //     // device_id: deviceId,
-                    // },
-                    state_variables, // initial state variables passed from frontend
-                    // metadata,   // passed from frontend                    
-                },
-                user: typeof resolvedUser === "string"
-                    ? resolvedUser
-                    : resolvedUser.id ?? "local-user",
-            }),
+            body: JSON.stringify(payload),
         });
 
         const data = await resp.json();

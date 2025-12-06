@@ -33,21 +33,41 @@ export const POST = withCors(async function POST(req: Request) {
         }
 
         // Refresh session
-        const resp = await fetch(`https://api.openai.com/v1/chatkit/sessions/${session_id}/refresh`, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${OPENAI_API_KEY}`,
-                "Content-Type": "application/json",
-                "OpenAI-Beta": "chatkit_beta=v1",
+        const payload = {
+            workflow: {
+                id: WORKFLOW_ID,
+                state_variables,
             },
-            body: JSON.stringify({
-                workflow: {
-                    id: WORKFLOW_ID,
-                    state_variables, // initial state variables passed from frontend
-                    // metadata,   // passed from frontend                    
+
+            metadata,
+
+            // ⭐ REQUIRED: Enable file uploads during refresh
+            chatkit_configuration: {
+                file_upload: {
+                    enabled: true,      // ⭐ REQUIRED
+                    max_size_mb: 25,    // optional
+                    allowed_mime_types: [
+                        "image/*",
+                        "application/pdf",
+                        "text/plain",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    ],
                 },
-            }),
-        });
+            },
+        };
+
+        const resp = await fetch(
+            `https://api.openai.com/v1/chatkit/sessions/${session_id}/refresh`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${OPENAI_API_KEY}`,
+                    "Content-Type": "application/json",
+                    "OpenAI-Beta": "chatkit_beta=v1",
+                },
+                body: JSON.stringify(payload),
+            }
+        );
 
         const data = await resp.json();
 

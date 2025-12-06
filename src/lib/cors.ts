@@ -5,7 +5,7 @@ function getAllowedOrigins(): string[] {
     if (!envOrigins || envOrigins.trim() === "") return ["*"];
     return envOrigins
         .split(",")
-        .map((o) => o.trim().replace(/\/+$/, "")) // ? remove trailing slashes
+        .map((o) => o.trim().replace(/\/+$/, "")) // remove trailing slashes
         .filter(Boolean);
 }
 
