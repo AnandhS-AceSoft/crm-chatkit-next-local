@@ -41,19 +41,19 @@ export const POST = withCors(async function POST(req: Request) {
 
             // metadata,
 
-            // // ⭐ REQUIRED: Enable file uploads during session creation
-            // chatkit_configuration: {
-            //     file_upload: {
-            //         enabled: true,       // ⭐ REQUIRED for file attachments
-            //         max_size_mb: 25,     // ⭐ optional: allow uploads up to 25MB
-            //         allowed_mime_types: [
-            //             "image/*",
-            //             "application/pdf",
-            //             "text/plain",
-            //             "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            //         ], // ⭐ optional
-            //     },
-            // },
+            // ⭐ REQUIRED: Enable file uploads during session creation
+            chatkit_configuration: {
+                file_upload: {
+                    enabled: true,       // ⭐ REQUIRED for file attachments
+                    // max_size_mb: 25,     // ⭐ optional: allow uploads up to 25MB
+                    // allowed_mime_types: [
+                    //     "image/*",
+                    //     "application/pdf",
+                    //     "text/plain",
+                    //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    // ], // ⭐ optional
+                },
+            },
         };
 
         const resp = await fetch("https://api.openai.com/v1/chatkit/sessions", {

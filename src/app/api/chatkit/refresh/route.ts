@@ -41,19 +41,19 @@ export const POST = withCors(async function POST(req: Request) {
 
             // metadata,
 
-            // // ⭐ REQUIRED: Enable file uploads during refresh
-            // chatkit_configuration: {
-            //     file_upload: {
-            //         enabled: true,      // ⭐ REQUIRED
-            //         max_size_mb: 25,    // optional
-            //         allowed_mime_types: [
-            //             "image/*",
-            //             "application/pdf",
-            //             "text/plain",
-            //             "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            //         ],
-            //     },
-            // },
+            // ⭐ REQUIRED: Enable file uploads during refresh
+            chatkit_configuration: {
+                file_upload: {
+                    enabled: true,      // ⭐ REQUIRED
+                    // max_size_mb: 25,    // optional
+                    // allowed_mime_types: [
+                    //     "image/*",
+                    //     "application/pdf",
+                    //     "text/plain",
+                    //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    // ],
+                },
+            },
         };
 
         const resp = await fetch(
