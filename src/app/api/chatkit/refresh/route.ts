@@ -39,7 +39,7 @@ export const POST = withCors(async function POST(req: Request) {
                 state_variables,
             },
 
-            metadata,
+            // metadata,
 
             // ⭐ REQUIRED: Enable file uploads during refresh
             chatkit_configuration: {

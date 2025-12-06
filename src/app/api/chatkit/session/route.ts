@@ -39,7 +39,7 @@ export const POST = withCors(async function POST(req: Request) {
                 ? resolvedUser
                 : resolvedUser.id ?? "local-user",
 
-            metadata,
+            // metadata,
 
             // ⭐ REQUIRED: Enable file uploads during session creation
             chatkit_configuration: {
